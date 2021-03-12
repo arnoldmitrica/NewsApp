@@ -32,9 +32,9 @@ class UIImageLoader {
                 }
             } catch {
                 // handle the error
+                print("Failed .getting() the image from the result ")
             }
         }
-        
         // 4
         if let token = token {
             uuidMap[imageView] = token

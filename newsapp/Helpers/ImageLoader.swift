@@ -13,6 +13,7 @@ import UIKit
 class ImageLoader {
     private var loadedImages = [URL: UIImage]()
     private var runningRequests = [UUID: URLSessionDataTask]()
+    private var i = 0
     
     func loadImage(_ url: URL, _ completion: @escaping (Result<UIImage, Error>) -> Void) -> UUID? {
         
@@ -36,15 +37,19 @@ class ImageLoader {
                 return
             }
             
+            
             // 5
-            guard let error = error else {
+            guard let errore = error else {
+                print("No Image: 2")
+                completion(.success(UIImage(named: "noimage.png")!))
                 // without an image or an error, we'll just ignore this for now
                 // you could add your own special error cases for this scenario
                 return
             }
             
-            guard (error as NSError).code == NSURLErrorCancelled else {
-                completion(.failure(error))
+            guard (errore as NSError).code == NSURLErrorCancelled else {
+                print("Error, but not not an NSURLErrorCanceled")
+                completion(.failure(errore))
                 return
             }
             

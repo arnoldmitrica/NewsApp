@@ -32,7 +32,7 @@ extension UIImageView {
         }
     }
     
-    public func imageFromServerURL(urlString: String, PlaceHolderImage:UIImage) {
+    func imageFromServerURL(urlString: String, PlaceHolderImage:UIImage) {
         
         if self.image == nil{
             self.image = PlaceHolderImage
