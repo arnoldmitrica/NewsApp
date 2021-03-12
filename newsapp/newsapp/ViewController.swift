@@ -26,29 +26,8 @@ class ViewController: UITableViewController, UINavigationControllerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         request(i)
-//        UIFont.familyNames.forEach { (familyName) in
-//            let fontNames = UIFont.fontNames(forFamilyName: familyName)
-//            print(familyName,fontNames)
-//        }
-        //self.title = "Front page"
-//        let attributes = [NSAttributedString.Key.font: UIFont(name: "LibreFranklin-Bold", size: 20)!]
-//        UINavigationBar.appearance().titleTextAttributes = attributes
-//        self.navigationItem.title = "Front page"
-        //self.title
-       // self.navigationController?.navigationBar.
-        //addNavBarImage()
         self.navigationController?.delegate = self
         self.navigationItem.title = "Front page"
-//        let attrs = [
-//            NSAttributedString.Key.foregroundColor: UIColor.red,
-//            NSAttributedString.Key.font: UIFont(name: "Georgia-Bold", size: 24)!
-//        ]
-//
-//        UINavigationBar.appearance().titleTextAttributes = attrs
-        let attributes = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 17)!]
-        UINavigationBar.appearance().titleTextAttributes = attributes
-        //self.navigationItem.title = "Front page"
-        //self.navigationItem.title = "Front page"
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
