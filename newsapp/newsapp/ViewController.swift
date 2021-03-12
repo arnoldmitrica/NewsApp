@@ -52,9 +52,6 @@ class ViewController: UITableViewController, UINavigationControllerDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "Detail") as! DetailViewController
-        let indexPath = tableView.indexPathForSelectedRow!
         
         articleTitle = news?.articles[indexPath.row].title ?? "No title"
         articleText = news?.articles[indexPath.row].content ?? "No content"
