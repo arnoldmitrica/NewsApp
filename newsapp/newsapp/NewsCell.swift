@@ -11,7 +11,25 @@ class NewsCell: UITableViewCell {
     @IBOutlet var timeAgo: UILabel!
     @IBOutlet var articleTitle: UILabel!
     @IBOutlet var articleImage: UIImageView!
-    //var urltoImage:String = ""
+    var tablecellViewModel : CellViewModel? {
+        didSet {
+            let dateFormatter = ISO8601DateFormatter()
+            let date = dateFormatter.date(from: tablecellViewModel!.publisedAt)!
+            let timenow = Date()
+            let timediff = Date.timeFromLshToRhs(lhs: timenow, rhs: date)
+            let timediffstring = TimeInterval(timediff).formatted
+            timeAgo.text = timediffstring
+            articleTitle.text = tablecellViewModel?.artTitle
+            if let urlpath = tablecellViewModel?.urlImg{
+                if let urlstring = URL(string: urlpath) {
+                    articleImage.loadImage(at: urlstring)
+                }
+            }
+            else{
+                articleImage.image = UIImage(named: "noimage.png")
+            }
+        }
+    }
     
     static let reuseIdentifier = "customCell"
     
