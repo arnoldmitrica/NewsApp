@@ -13,7 +13,7 @@ class NewsViewModel {
     private var link = ""
     private var startingPage = 1
     
-    private var cellViewModels: [CellViewModel] = [CellViewModel]() {
+    private var cellViewModels: [RowViewModel] = [RowViewModel]() {
         didSet {
             self.reloadTableViewClosure?()
         }
@@ -36,8 +36,31 @@ class NewsViewModel {
         initFetch()
     }
     
-    func getCellViewModel( at indexPath: IndexPath ) -> CellViewModel {
+    func getCellViewModel( at indexPath: IndexPath ) -> RowViewModel {
         return cellViewModels[indexPath.row]
+    }
+    
+//    func cellIdentifier(for viewModel: RowViewModel) -> String {
+//        switch viewModel {
+//        case is FirstCell:
+//            return FirstCell.reuseIdentifier
+//        case is NewsCell:
+//            return NewsCell.reuseIdentifier
+//        default:
+//            fatalError("Unexpected view model type: \(viewModel)")
+//        }
+//    }
+    
+    func cellIdentifier(for indexPath: IndexPath) -> String {
+        //if indexPath.row == 0
+        switch indexPath {
+        case _ where indexPath.row == 0:
+            return FirstCell.reuseIdentifier
+        case _ where indexPath.row > 0:
+            return NewsCell.reuseIdentifier
+        default:
+            fatalError("Unexpected indexpath")
+        }
     }
     
     private func request(_ page: Int){
@@ -58,11 +81,11 @@ class NewsViewModel {
     func dequeCellTypeAt(indexPath: IndexPath, tableView: UITableView) -> UITableViewCell{
         if indexPath.row == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: FirstCell.reuseIdentifier, for: indexPath) as! FirstCell
-            cell.tablecellViewModel = cellViewModels[0]
+            cell.tablecellViewModel = cellViewModels[0] as? CellViewModel
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsCell.reuseIdentifier, for: indexPath) as! NewsCell
-        cell.tablecellViewModel = cellViewModels[indexPath.row]
+        cell.tablecellViewModel = cellViewModels[indexPath.row] as? CellViewModel
         return cell
     }
     
@@ -73,8 +96,7 @@ class NewsViewModel {
             content = descriptionUnwrapped
         }
         // For this endpoint in JSON there is no category but the screenshots seem to have, I guess there is another interface for another endpoint and I left category with the title String
-        
-        return CellViewModel(artTitle: newsArticle.title, artDescription: content, urlImg: newsArticle.urlToImage, publisedAt: newsArticle.publishedAt, category: newsArticle.title)
+        return CellViewModel(artTitle: newsArticle.title, artDescription: content, urlImg: newsArticle.urlToImage, publishedAt: newsArticle.publishedAt, category: newsArticle.title)
     }
     
     private func processFetchedPhoto( newsArticles: Welcome ) {
@@ -82,6 +104,7 @@ class NewsViewModel {
         for newsArticle in newsArticles.articles {
             cellViewModels.append( createCellViewModel(newsArticle: newsArticle) )
         }
+        //print(newsArticles)
     }
     
     private func parse(jsonData: Data) {

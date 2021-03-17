@@ -7,14 +7,15 @@
 
 import UIKit
 
-class NewsCell: UITableViewCell {
+class NewsCell: UITableViewCell, CellConfigurable, RowViewModel {
     @IBOutlet var timeAgo: UILabel!
     @IBOutlet var articleTitle: UILabel!
     @IBOutlet var articleImage: UIImageView!
+    static let reuseIdentifier = "customCell"
     var tablecellViewModel : CellViewModel? {
         didSet {
             let dateFormatter = ISO8601DateFormatter()
-            let date = dateFormatter.date(from: tablecellViewModel!.publisedAt)!
+            let date = dateFormatter.date(from: tablecellViewModel!.publishedAt)!
             let timenow = Date()
             let timediff = Date.timeFromLshToRhs(lhs: timenow, rhs: date)
             let timediffstring = TimeInterval(timediff).formatted
@@ -30,9 +31,6 @@ class NewsCell: UITableViewCell {
             }
         }
     }
-    
-    static let reuseIdentifier = "customCell"
-    
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,6 +40,11 @@ class NewsCell: UITableViewCell {
     override func prepareForReuse() {
         articleImage.image = nil
         articleImage.cancelImageLoad()
+    }
+    
+    func setup(viewModel: RowViewModel) {
+        guard let viewModel = viewModel as? CellViewModel else { fatalError("Newscell error")}
+        tablecellViewModel = viewModel
     }
 
 }

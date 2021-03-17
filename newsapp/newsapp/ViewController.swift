@@ -73,13 +73,21 @@ class ViewController: UITableViewController, UINavigationControllerDelegate {
             // initialize new view controller and cast it as your view controller
             let viewcontroller = segue.destination as? DetailViewController
             if let vc = viewcontroller{
-                vc.detailview = viewModel.getCellViewModel(at: sender as! IndexPath)
+                vc.detailview = viewModel.getCellViewModel(at: sender as! IndexPath) as? CellViewModel
             }
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return viewModel.dequeCellTypeAt(indexPath: indexPath, tableView: tableView)
+        //return viewModel.dequeCellTypeAt(indexPath: indexPath, tableView: tableView)
+        let rowViewModel = viewModel.getCellViewModel(at: indexPath)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.cellIdentifier(for: rowViewModel), for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.cellIdentifier(for: indexPath), for: indexPath)
+        if let cell = cell as? CellConfigurable {
+            cell.setup(viewModel: rowViewModel)
+        }
+        //cell.layoutIfNeeded()
+        return cell
     }
         
     func addNavBarImage() {

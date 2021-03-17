@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FirstCell: UITableViewCell {
+class FirstCell: UITableViewCell, CellConfigurable, RowViewModel {
     static let reuseIdentifier = "firstCell"
     @IBOutlet var articleImage: UIImageView!
     
@@ -16,7 +16,7 @@ class FirstCell: UITableViewCell {
     var tablecellViewModel : CellViewModel? {
         didSet {
             let dateFormatter = ISO8601DateFormatter()
-            let date = dateFormatter.date(from: tablecellViewModel!.publisedAt)!
+            let date = dateFormatter.date(from: tablecellViewModel!.publishedAt)!
             let timenow = Date()
             let timediff = Date.timeFromLshToRhs(lhs: timenow, rhs: date)
             let timediffstring = TimeInterval(timediff).formatted
@@ -47,6 +47,11 @@ class FirstCell: UITableViewCell {
     override func prepareForReuse() {
         articleImage.image = nil
         articleImage.cancelImageLoad()
+    }
+    
+    func setup(viewModel: RowViewModel) {
+        guard let viewModel = viewModel as? CellViewModel else { fatalError("Firstcell error")}
+        tablecellViewModel = viewModel
     }
 
 }
